@@ -1,7 +1,12 @@
+import java.io.IOException;
+
 public class Main {
-    public static Player test = new Player(0, "test", 0, 0, 0, 0, 0,
+
+    public static void main(String[] args) throws IOException {
+        Player test = new Player(0, "", 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0,
             0);
-    public static void main(String[] args) {
+
+        ReadInformation information = new ReadInformation("C:\\Users\\Jelle\\Desktop\\test.txt");
     }
 }
