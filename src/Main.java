@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -7,6 +8,16 @@ public class Main {
             0, 0, 0, 0, 0, 0, 0,
             0);
 
-        ReadInformation information = new ReadInformation("C:\\Users\\Jelle\\Desktop\\test.txt");
+        Information information = new Information("C:\\Users\\Jelle\\Desktop\\test.txt");
+        ArrayList<String> data = Information.getInput();
+        ArrayList<Player> playerList = new ArrayList<>();
+        while(data.isEmpty() == false) {
+            playerList.add(Information.convertInformation(data.get(0)));
+            data.remove(0);
+        }
+        while(playerList.isEmpty() == false) {
+            System.out.println(Information.printPlayer(playerList.get(0)));
+            playerList.remove(0);
+        }
     }
 }

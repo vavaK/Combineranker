@@ -157,4 +157,5 @@ public class Player {
     public void setOverShoulderCatchRunning(double overShoulderCatchRunning) {
         this.overShoulderCatchRunning = overShoulderCatchRunning;
     }
+
 }
