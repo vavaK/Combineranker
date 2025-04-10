@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.*;
+
 public class Player {
     private int id;
     // Personal information
@@ -18,12 +21,17 @@ public class Player {
     private double routRunning;
     private double overShoulderCatchStanding;
     private double overShoulderCatchRunning;
+    private double score;
+
+    private static final int amountSortableAttributes = 9;
+    private static final int amountUnsortableAttributes = 3;
 
 
 
     public Player(int id, String name, int gender, double tenYard, double fourtyYard, double verticalJump,
                   double horizontalJump, double threePointJump, double lCone, double threeCone, double twoCone,
-                  double tTest, double routRunning, double overShoulderCatchStanding, double overShoulderCatchRunning){
+                  double tTest, double routRunning, double overShoulderCatchStanding, double overShoulderCatchRunning,
+                  double score){
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -39,6 +47,7 @@ public class Player {
         this.routRunning = routRunning;
         this.overShoulderCatchStanding = overShoulderCatchStanding;
         this.overShoulderCatchRunning = overShoulderCatchRunning;
+        this.score = score;
     }
 
     public int getId() {
@@ -156,6 +165,164 @@ public class Player {
 
     public void setOverShoulderCatchRunning(double overShoulderCatchRunning) {
         this.overShoulderCatchRunning = overShoulderCatchRunning;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public static ArrayList<Player> splitGender(ArrayList<Player> players, String gender) {
+        ArrayList<Player> split = new ArrayList<Player>();
+        for (Player playerGender : players) {
+            if(playerGender.getGender() == gender) {
+                split.add(playerGender);
+            }
+        }
+        return split;
+    }
+
+    public static ArrayList<Player> rankPlayer(ArrayList<Player> playerList) {
+        // Size of a group
+        int range = (int)Math.round(Math.sqrt(playerList.size()));
+        // Amount of groups/max reachable points
+        int size = (int)Math.ceil(Math.sqrt(playerList.size()));
+        playerList = sortPlayer(playerList, range, size);
+        playerList = addUnsortableAttributes(playerList);
+        playerList.sort(Comparator.comparingDouble(p -> p.getScore()));
+        Collections.reverse(playerList);
+
+        return playerList;
+    }
+
+    private static ArrayList<Player> calculateScore(ArrayList<Player> playerUnranked, int range, int size,
+                                                    ArrayList<Integer> marioRule) {
+        ArrayList<Player> playerRanked = new ArrayList<Player>();
+        int counter = 0;
+        int streak = 0;
+        while(!playerUnranked.isEmpty()) {
+            if(playerUnranked.size() % range == 0) {
+                size -=1;
+                if(marioRule.get(0) == counter) {
+                    streak += 1;
+                }
+            }
+            playerUnranked.get(0).setScore(playerUnranked.get(0).getScore() + size);
+            if(!marioRule.isEmpty()) {
+                if(marioRule.get(0) == counter) {
+                    playerUnranked.get(0).setScore(playerUnranked.get(0).getScore() + streak);
+                    marioRule.remove(0);
+                } else {
+                    streak = 0;
+                }
+            }
+            playerRanked.add(playerUnranked.get(0));
+            playerUnranked.remove(0);
+            counter += 1;
+        }
+        return playerRanked;
+    }
+
+    private static ArrayList<Integer> determineDuplicate(ArrayList<Player> playerList, int attributeID){
+        Map<Double, Integer> firstAppearance = new HashMap<>();
+        ArrayList<Integer> duplicate = new ArrayList<Integer>();
+        double storage = -1;
+
+        for (int i = 0; i < playerList.size(); i++) {
+            switch (attributeID) {
+                case 0:
+                    storage = playerList.get(i).getTenYard();
+                    break;
+                case 1:
+                    storage = playerList.get(i).getFourtyYard();
+                    break;
+                case 2:
+                    storage = playerList.get(i).getVerticalJump();
+                    break;
+                case 3:
+                    storage = playerList.get(i).getHorizontalJump();
+                    break;
+                case 4:
+                    storage = playerList.get(i).getThreePointJump();
+                    break;
+                case 5:
+                    storage = playerList.get(i).getlCone();
+                    break;
+                case 6:
+                    storage = playerList.get(i).getThreeCone();
+                    break;
+                case 7:
+                    storage = playerList.get(i).getTwoCone();
+                    break;
+                case 8:
+                    storage = playerList.get(i).gettTest();
+                    break;
+                default:
+                    System.out.println("Error attribute is not valid!");
+            }
+            if(firstAppearance.containsKey(storage)) {
+                duplicate.add(i);
+            } else {
+                firstAppearance.put(storage, i);
+            }
+        }
+        return duplicate;
+    }
+
+    private static ArrayList<Player> sortPlayer(ArrayList<Player> playerList, int range, int size) {
+        ArrayList<Integer> marioRule = new ArrayList<>();
+        for(int i = 0; i < amountSortableAttributes; i++) {
+            switch(i) {
+                case 0:
+                    playerList.sort(Comparator.comparingDouble(p -> p.getTenYard()));
+                    break;
+                case 1:
+                    playerList.sort(Comparator.comparingDouble(p -> p.getFourtyYard()));
+                    break;
+                case 2:
+                    playerList.sort(Comparator.comparingDouble(p -> p.getVerticalJump()));
+                    Collections.reverse(playerList);
+                    break;
+                case 3:
+                    playerList.sort(Comparator.comparingDouble(p -> p.getHorizontalJump()));
+                    Collections.reverse(playerList);
+                    break;
+                case 4:
+                    playerList.sort(Comparator.comparingDouble(p -> p.getThreePointJump()));
+                    Collections.reverse(playerList);
+                    break;
+                case 5:
+                    playerList.sort(Comparator.comparingDouble(p -> p.getlCone()));
+                    break;
+                case 6:
+                    playerList.sort(Comparator.comparingDouble(p -> p.getThreeCone()));
+                    break;
+                case 7:
+                    playerList.sort(Comparator.comparingDouble(p -> p.getTwoCone()));
+                    break;
+                case 8:
+                    playerList.sort(Comparator.comparingDouble(p -> p.gettTest()));
+                    break;
+                default:
+                    System.out.println("Error attribute is not valid!");
+            }
+            marioRule = determineDuplicate(playerList, i);
+            playerList = calculateScore(playerList, range, size, marioRule);
+
+        }
+        return playerList;
+    }
+
+    private static ArrayList<Player> addUnsortableAttributes(ArrayList<Player> playerList) {
+        for (int i = 0; i < playerList.size(); i++) {
+            playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getRoutRunning());
+            playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getOverShoulderCatchStanding());
+            playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getOverShoulderCatchRunning());
+        }
+        return playerList;
     }
 
 }
