@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class Main {
 
@@ -10,10 +9,11 @@ public class Main {
             0, 0);
 
         Player.randomPlayer(21);
-        //Information information = new Information("C:\\Users\\Jelle\\Desktop\\test.txt");
-        Information information = new Information("C:\\Users\\Jelle\\Desktop\\randomPlayer.txt");
+        Information information = new Information("C:\\Users\\Jelle\\Desktop\\test.txt");
+        //Information information = new Information("C:\\Users\\Jelle\\Desktop\\randomPlayer.txt");
         ArrayList<String> data = Information.getInput();
         ArrayList<Player> playerList = new ArrayList<>();
+        ArrayList<Player> storagePlayerList = playerList;
         ArrayList<Player> playerListMale = new ArrayList<>();
         ArrayList<Player> playerListFemale = new ArrayList<>();
         while(data.isEmpty() == false) {
@@ -29,7 +29,7 @@ public class Main {
         playerList = playerListFemale;
         playerList.addAll(playerListMale);
 
-        while(playerList.isEmpty() == false) {
+        while(!playerList.isEmpty()) {
             System.out.println(Information.printPlayer(playerList.get(0)));
             playerList.remove(0);
         }

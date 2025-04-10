@@ -190,6 +190,13 @@ public class Player {
         return split;
     }
 
+    /**
+     * Creates the calculated and sorted order of all Payer
+     *
+     * @param playerList List of all player
+     *
+     * @return List of all player
+     */
     public static ArrayList<Player> rankPlayer(ArrayList<Player> playerList) {
         // Size of a group
         int range = (int)Math.round(Math.sqrt(playerList.size()));
@@ -203,6 +210,15 @@ public class Player {
         return playerList;
     }
 
+    /**
+     * Calculates the score of the attribute of the player
+     *
+     * @param playerUnranked List of all unranked player
+     * @param range Size of a group
+     * @param size Amount of points that every player in one group gets
+     * @param marioRule If two or more player have the same time they all get the same points
+     * @return List of all ranked player
+     */
     private static ArrayList<Player> calculateScore(ArrayList<Player> playerUnranked, int range, int size,
                                                     ArrayList<Integer> marioRule) {
         ArrayList<Player> playerRanked = new ArrayList<Player>();
@@ -231,6 +247,13 @@ public class Player {
         return playerRanked;
     }
 
+    /**
+     * Determines whether two player have the same time or not
+     *
+     * @param playerList List of all players
+     * @param attributeID Defines the used attribute
+     * @return The position of players with the same time
+     */
     private static ArrayList<Integer> determineDuplicate(ArrayList<Player> playerList, int attributeID){
         Map<Double, Integer> firstAppearance = new HashMap<>();
         ArrayList<Integer> duplicate = new ArrayList<Integer>();
@@ -277,8 +300,19 @@ public class Player {
         return duplicate;
     }
 
+    /**
+     * Sorts the players based on every attribute
+     *
+     * @param playerList List of all players
+     * @param range Size of a group
+     * @param size Amount of points that every player in one group gets
+     * @return List of all players
+     */
     private static ArrayList<Player> sortPlayer(ArrayList<Player> playerList, int range, int size) {
         ArrayList<Integer> marioRule = new ArrayList<>();
+        int placement = 1;
+        boolean skip = false;
+        int amountSkip = 0;
         for(int i = 0; i < amountSortableAttributes; i++) {
             switch(i) {
                 case 0:
@@ -315,12 +349,62 @@ public class Player {
                     System.out.println("Error attribute is not valid!");
             }
             marioRule = determineDuplicate(playerList, i);
+            System.out.println(marioRule);
+            for (Player player: playerList) {
+                switch(i) {
+                    case 0:
+                        player.setTenYard(placement - amountSkip);
+                        break;
+                    case 1:
+                        player.setFourtyYard(placement - amountSkip);
+                        break;
+                    case 2:
+                        player.setVerticalJump(placement - amountSkip);
+                        break;
+                    case 3:
+                        player.setHorizontalJump(placement - amountSkip);
+                        break;
+                    case 4:
+                        player.setThreePointJump(placement - amountSkip);
+                        break;
+                    case 5:
+                        player.setlCone(placement - amountSkip);
+                        break;
+                    case 6:
+                        player.setThreeCone(placement - amountSkip);
+                        break;
+                    case 7:
+                        player.setTwoCone(placement - amountSkip);
+                        break;
+                    case 8:
+                        player.settTest(placement - amountSkip);
+                        break;
+                    default:
+                        System.out.println("Error attribute is not valid!");
+                }
+                if(marioRule.contains(placement)) {
+                    System.out.println(placement + " :Placement, " + marioRule + " :Mario Rule, ID: " + player.getId() + ", Case 1");
+                    amountSkip += 1;
+                } else {
+                    if(player.getId()==0 || player.getId()==1) {
+                        System.out.println(placement + " :Placement, " + marioRule + " :Mario Rule, ID: " + player.getId() + ", Case 2");
+                    }
+                    amountSkip = 0;
+                }
+                placement += 1;
+            }
+            placement = 1;
             playerList = calculateScore(playerList, range, size, marioRule);
-
         }
         return playerList;
     }
 
+    /**
+     * Adds the points of all unsortable Attributes to the score
+     *
+     * @param playerList List of all players
+     * @return List of all players with their adjusted score
+     */
     private static ArrayList<Player> addUnsortableAttributes(ArrayList<Player> playerList) {
         for (int i = 0; i < playerList.size(); i++) {
             playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getRoutRunning());
@@ -330,6 +414,12 @@ public class Player {
         return playerList;
     }
 
+    /**
+     * Creates a list of x random players
+     *
+     * @param amount the amount of player that will be created
+     * @throws IOException
+     */
     public static void randomPlayer(int amount) throws IOException {
         File randomPlayerText = new File("C:\\Users\\Jelle\\Desktop\\randomPlayer.txt");
         PrintWriter writer = new PrintWriter(randomPlayerText, "UTF-8");
