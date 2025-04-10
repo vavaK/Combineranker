@@ -1,4 +1,9 @@
-import java.lang.reflect.Array;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.sql.Array;
 import java.util.*;
 
 public class Player {
@@ -64,9 +69,9 @@ public class Player {
     }
     public String getGender() {
         if(gender == 0) {
-            return "male";
+            return "female";
         }
-        return "female";
+        return "male";
     }
     public void setGender(int gender) {
         gender = this.gender;
@@ -206,7 +211,7 @@ public class Player {
         while(!playerUnranked.isEmpty()) {
             if(playerUnranked.size() % range == 0) {
                 size -=1;
-                if(marioRule.get(0) == counter) {
+                if(!marioRule.isEmpty() && marioRule.get(0) == counter) {
                     streak += 1;
                 }
             }
@@ -323,6 +328,50 @@ public class Player {
             playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getOverShoulderCatchRunning());
         }
         return playerList;
+    }
+
+    public static void randomPlayer(int amount) throws IOException {
+        File randomPlayerText = new File("C:\\Users\\Jelle\\Desktop\\randomPlayer.txt");
+        PrintWriter writer = new PrintWriter(randomPlayerText, "UTF-8");
+        double[] randomArray = new double[amountSortableAttributes + amountUnsortableAttributes + 1];
+        double random;
+        String randomName="";
+        Random randomString = new Random();
+        int leftLimit = 97;
+        int rightLimit = 122;
+        for(int i = 0; i < amount; i++) {
+            for(int j = 0; j < randomArray.length; j++) {
+                randomName = randomString.ints(leftLimit, rightLimit + 1)
+                        .limit(7)
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+                switch (j) {
+                    case 0: // Gender
+                        random = Math.random() * 5;
+                        break;
+                    case 10:
+                    case 11:
+                    case 12:
+                        random = Math.random() * 4;
+                        break;
+                    default:
+                        random = Math.random() * 16;
+
+                }
+                randomArray[j] = (Math.round(random * 100.0))/100.0;
+            }
+            writer.print(i+","+randomName);
+            for (int k = 0; k < randomArray.length; k++) {
+                if(k == 0 || (k <= 12 && k >= 10)) {
+                    writer.print("," + (int)randomArray[k]);
+                } else {
+                    writer.print("," + randomArray[k]);
+                }
+            }
+            writer.print(",0");
+            writer.println();
+        }
+        writer.close();
     }
 
 }

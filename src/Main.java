@@ -9,7 +9,9 @@ public class Main {
             0, 0, 0, 0, 0, 0, 0,
             0, 0);
 
-        Information information = new Information("C:\\Users\\Jelle\\Desktop\\test.txt");
+        Player.randomPlayer(21);
+        //Information information = new Information("C:\\Users\\Jelle\\Desktop\\test.txt");
+        Information information = new Information("C:\\Users\\Jelle\\Desktop\\randomPlayer.txt");
         ArrayList<String> data = Information.getInput();
         ArrayList<Player> playerList = new ArrayList<>();
         ArrayList<Player> playerListMale = new ArrayList<>();
@@ -22,6 +24,7 @@ public class Main {
         playerListFemale = Player.splitGender(playerList, "female");
 
         playerListMale = Player.rankPlayer(playerListMale);
+        playerListFemale = Player.rankPlayer(playerListFemale);
 
         playerList = playerListFemale;
         playerList.addAll(playerListMale);
