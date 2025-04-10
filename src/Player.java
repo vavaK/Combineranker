@@ -311,7 +311,6 @@ public class Player {
     private static ArrayList<Player> sortPlayer(ArrayList<Player> playerList, int range, int size) {
         ArrayList<Integer> marioRule = new ArrayList<>();
         int placement = 1;
-        boolean skip = false;
         int amountSkip = 0;
         for(int i = 0; i < amountSortableAttributes; i++) {
             switch(i) {
@@ -349,7 +348,6 @@ public class Player {
                     System.out.println("Error attribute is not valid!");
             }
             marioRule = determineDuplicate(playerList, i);
-            System.out.println(marioRule);
             for (Player player: playerList) {
                 switch(i) {
                     case 0:
@@ -383,12 +381,8 @@ public class Player {
                         System.out.println("Error attribute is not valid!");
                 }
                 if(marioRule.contains(placement)) {
-                    System.out.println(placement + " :Placement, " + marioRule + " :Mario Rule, ID: " + player.getId() + ", Case 1");
                     amountSkip += 1;
                 } else {
-                    if(player.getId()==0 || player.getId()==1) {
-                        System.out.println(placement + " :Placement, " + marioRule + " :Mario Rule, ID: " + player.getId() + ", Case 2");
-                    }
                     amountSkip = 0;
                 }
                 placement += 1;

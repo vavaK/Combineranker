@@ -46,24 +46,24 @@ public class Information {
         return Double.parseDouble(data);
     }
 
-    public static String printPlayer(Player player) {
+    public static String printPlayer(Player playerPlacement, Player playerdata) {
         String output = "";
-        output += player.getId();
-        output += (", " + player.getName());
-        output += (", " + player.getGender());
-        output += (", " + player.getTenYard());
-        output += (", " + player.getFourtyYard());
-        output += (", " + player.getVerticalJump());
-        output += (", " + player.getHorizontalJump());
-        output += (", " + player.getThreePointJump());
-        output += (", " + player.getlCone());
-        output += (", " + player.getThreeCone());
-        output += (", " + player.getTwoCone());
-        output += (", " + player.gettTest());
-        output += (", " + player.getRoutRunning());
-        output += (", " + player.getOverShoulderCatchStanding());
-        output += (", " + player.getOverShoulderCatchRunning());
-        output += (", " + player.getScore());
+        output += playerPlacement.getId();
+        output += (", " + playerPlacement.getName());
+        output += (", " + playerPlacement.getGender());
+        output += (", " + playerdata.getTenYard() + " (" + (int)playerPlacement.getTenYard() + ")");
+        output += (", " + playerdata.getFourtyYard() + " (" + (int)playerPlacement.getFourtyYard() + ")");
+        output += (", " + playerdata.getVerticalJump() + " (" + (int)playerPlacement.getVerticalJump() + ")");
+        output += (", " + playerdata.getHorizontalJump() + " (" + (int)playerPlacement.getHorizontalJump() + ")");
+        output += (", " + playerdata.getThreePointJump() + " (" + (int)playerPlacement.getThreePointJump() + ")");
+        output += (", " + playerdata.getlCone() + " (" + (int)playerPlacement.getlCone() + ")");
+        output += (", " + playerdata.getThreeCone() + " (" + (int)playerPlacement.getThreeCone() + ")");
+        output += (", " + playerdata.getTwoCone() + " (" + (int)playerPlacement.getTwoCone() + ")");
+        output += (", " + playerdata.gettTest() + " (" + (int)playerPlacement.gettTest() + ")");
+        output += (", " + playerPlacement.getRoutRunning());
+        output += (", " + playerPlacement.getOverShoulderCatchStanding());
+        output += (", " + playerPlacement.getOverShoulderCatchRunning());
+        output += (", " + playerPlacement.getScore());
         return output;
     }
 }
