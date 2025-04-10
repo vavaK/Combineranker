@@ -31,6 +31,8 @@ public class Player {
     private static final int amountSortableAttributes = 9;
     private static final int amountUnsortableAttributes = 3;
 
+    private static final double bonus = 0.5;
+
 
 
     public Player(int id, String name, int gender, double tenYard, double fourtyYard, double verticalJump,
@@ -239,6 +241,18 @@ public class Player {
                 } else {
                     streak = 0;
                 }
+            }
+            switch(counter) {
+                case 0:
+                    playerUnranked.get(0).setScore(playerUnranked.get(0).getScore() + bonus);
+                    break;
+                case 1:
+                    playerUnranked.get(0).setScore(playerUnranked.get(0).getScore() + bonus/2);
+                    break;
+                case 2:
+                    playerUnranked.get(0).setScore(playerUnranked.get(0).getScore() + bonus/4);
+                    break;
+                default:
             }
             playerRanked.add(playerUnranked.get(0));
             playerUnranked.remove(0);
