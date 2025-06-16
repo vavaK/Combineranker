@@ -15,7 +15,7 @@ public class Player {
     private double tenYard;
     private double fourtyYard;
     private double verticalJump;
-    private double horizontalJump;
+    //private double horizontalJump;
     // Part Two Agility/Hand-Eye-Coordination
     private double threePointJump;
     private double lCone;
@@ -24,36 +24,34 @@ public class Player {
     private double tTest;
     // Part Three Routs/Cuts/Speed/Hand-Eye-Coordination
     private double routRunning;
-    private double overShoulderCatchStanding;
-    private double overShoulderCatchRunning;
+    //private double overShoulderCatchStanding;
+    //private double overShoulderCatchRunning;
     private double score;
 
-    private static final int amountSortableAttributes = 9;
-    private static final int amountUnsortableAttributes = 3;
+    private static final int amountSortableAttributes = 8;
+    private static final int amountUnsortableAttributes = 1;
 
     private static final double bonus = 0.5;
 
 
 
     public Player(int id, String name, int gender, double tenYard, double fourtyYard, double verticalJump,
-                  double horizontalJump, double threePointJump, double lCone, double threeCone, double twoCone,
-                  double tTest, double routRunning, double overShoulderCatchStanding, double overShoulderCatchRunning,
-                  double score){
+                  double threePointJump, double lCone, double threeCone, double twoCone, double tTest,
+                  double routRunning, double score){
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.tenYard = tenYard;
         this.fourtyYard = fourtyYard;
         this.verticalJump = verticalJump;
-        this.horizontalJump = horizontalJump;
         this.threePointJump = threePointJump;
         this.lCone = lCone;
         this.threeCone = threeCone;
         this.twoCone = twoCone;
         this.tTest = tTest;
         this.routRunning = routRunning;
-        this.overShoulderCatchStanding = overShoulderCatchStanding;
-        this.overShoulderCatchRunning = overShoulderCatchRunning;
+        //this.overShoulderCatchStanding = overShoulderCatchStanding;
+        //this.overShoulderCatchRunning = overShoulderCatchRunning;
         this.score = score;
     }
 
@@ -102,13 +100,13 @@ public class Player {
         this.verticalJump = verticalJump;
     }
 
-    public double getHorizontalJump() {
-        return horizontalJump;
-    }
+    //public double getHorizontalJump() {
+        //return horizontalJump;
+    //}
 
-    public void setHorizontalJump(double horizontalJump) {
-        this.horizontalJump = horizontalJump;
-    }
+    //public void setHorizontalJump(double horizontalJump) {
+        //this.horizontalJump = horizontalJump;
+    //}
 
     public double getThreePointJump() {
         return threePointJump;
@@ -158,6 +156,7 @@ public class Player {
         this.routRunning = routRunning;
     }
 
+    /**
     public double getOverShoulderCatchStanding() {
         return overShoulderCatchStanding;
     }
@@ -173,6 +172,7 @@ public class Player {
     public void setOverShoulderCatchRunning(double overShoulderCatchRunning) {
         this.overShoulderCatchRunning = overShoulderCatchRunning;
     }
+     */
 
     public double getScore() {
         return score;
@@ -202,8 +202,10 @@ public class Player {
     public static ArrayList<Player> rankPlayer(ArrayList<Player> playerList) {
         // Size of a group
         int range = (int)Math.round(Math.sqrt(playerList.size()));
+        System.out.println("Die Gruppengröße ist: " + range);
         // Amount of groups/max reachable points
         int size = (int)Math.ceil(Math.sqrt(playerList.size()));
+        System.out.println("Die maximale Punktanzahl ist: " + size);
         playerList = sortPlayer(playerList, range, size);
         playerList = addUnsortableAttributes(playerList);
         playerList.sort(Comparator.comparingDouble(p -> p.getScore()));
@@ -227,7 +229,7 @@ public class Player {
         int counter = 0;
         int streak = 0;
         while(!playerUnranked.isEmpty()) {
-            if(playerUnranked.size() % range == 0) {
+            if(playerUnranked.size() % range == 0 && playerUnranked.size()!=size*range) {
                 size -=1;
                 if(!marioRule.isEmpty() && marioRule.get(0) == counter) {
                     streak += 1;
@@ -242,6 +244,7 @@ public class Player {
                     streak = 0;
                 }
             }
+            /**
             switch(counter) {
                 case 0:
                     playerUnranked.get(0).setScore(playerUnranked.get(0).getScore() + bonus);
@@ -253,7 +256,7 @@ public class Player {
                     playerUnranked.get(0).setScore(playerUnranked.get(0).getScore() + bonus/4);
                     break;
                 default:
-            }
+            }*/
             playerRanked.add(playerUnranked.get(0));
             playerUnranked.remove(0);
             counter += 1;
@@ -285,21 +288,19 @@ public class Player {
                     storage = playerList.get(i).getVerticalJump();
                     break;
                 case 3:
-                    storage = playerList.get(i).getHorizontalJump();
-                    break;
-                case 4:
+                    //storage = playerList.get(i).getHorizontalJump();
                     storage = playerList.get(i).getThreePointJump();
                     break;
-                case 5:
+                case 4:
                     storage = playerList.get(i).getlCone();
                     break;
-                case 6:
+                case 5:
                     storage = playerList.get(i).getThreeCone();
                     break;
-                case 7:
+                case 6:
                     storage = playerList.get(i).getTwoCone();
                     break;
-                case 8:
+                case 7:
                     storage = playerList.get(i).gettTest();
                     break;
                 default:
@@ -339,23 +340,20 @@ public class Player {
                     Collections.reverse(playerList);
                     break;
                 case 3:
-                    playerList.sort(Comparator.comparingDouble(p -> p.getHorizontalJump()));
-                    Collections.reverse(playerList);
-                    break;
-                case 4:
+                    //playerList.sort(Comparator.comparingDouble(p -> p.getHorizontalJump()));
                     playerList.sort(Comparator.comparingDouble(p -> p.getThreePointJump()));
                     Collections.reverse(playerList);
                     break;
-                case 5:
+                case 4:
                     playerList.sort(Comparator.comparingDouble(p -> p.getlCone()));
                     break;
-                case 6:
+                case 5:
                     playerList.sort(Comparator.comparingDouble(p -> p.getThreeCone()));
                     break;
-                case 7:
+                case 6:
                     playerList.sort(Comparator.comparingDouble(p -> p.getTwoCone()));
                     break;
-                case 8:
+                case 7:
                     playerList.sort(Comparator.comparingDouble(p -> p.gettTest()));
                     break;
                 default:
@@ -374,25 +372,35 @@ public class Player {
                         player.setVerticalJump(placement - amountSkip);
                         break;
                     case 3:
-                        player.setHorizontalJump(placement - amountSkip);
-                        break;
-                    case 4:
+                        //player.setHorizontalJump(placement - amountSkip);
                         player.setThreePointJump(placement - amountSkip);
                         break;
-                    case 5:
+                    case 4:
                         player.setlCone(placement - amountSkip);
                         break;
-                    case 6:
+                    case 5:
                         player.setThreeCone(placement - amountSkip);
                         break;
-                    case 7:
+                    case 6:
                         player.setTwoCone(placement - amountSkip);
                         break;
-                    case 8:
+                    case 7:
                         player.settTest(placement - amountSkip);
                         break;
                     default:
                         System.out.println("Error attribute is not valid!");
+                }
+                switch(placement - amountSkip - 1) {
+                    case 0:
+                        player.setScore(player.getScore() + bonus);
+                        break;
+                    case 1:
+                        player.setScore(player.getScore() + bonus/2);
+                        break;
+                    case 2:
+                        player.setScore(player.getScore() + bonus/4);
+                        break;
+                    default:
                 }
                 if(marioRule.contains(placement)) {
                     amountSkip += 1;
@@ -416,8 +424,8 @@ public class Player {
     private static ArrayList<Player> addUnsortableAttributes(ArrayList<Player> playerList) {
         for (int i = 0; i < playerList.size(); i++) {
             playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getRoutRunning());
-            playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getOverShoulderCatchStanding());
-            playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getOverShoulderCatchRunning());
+            //playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getOverShoulderCatchStanding());
+            //playerList.get(i).setScore(playerList.get(i).getScore() + playerList.get(i).getOverShoulderCatchRunning());
         }
         return playerList;
     }

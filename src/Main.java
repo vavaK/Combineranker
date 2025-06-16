@@ -5,12 +5,23 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Player test = new Player(0, "", 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0,
-            0, 0);
+            0, 0, 0, 0, 0, 0);
+        int mode = 2;
+        Information information;
 
-        //Information information = new Information("C:\\Users\\Jelle\\Desktop\\test.txt");
-        Player.randomPlayer(21);
-        Information information = new Information("C:\\Users\\Jelle\\Desktop\\randomPlayer.txt");
+        switch(mode) {
+            case 0:
+                information = new Information("C:\\Users\\Jelle\\Desktop\\Combine.txt");
+                break;
+            case 1:
+                information = new Information("C:\\Users\\Jelle\\Desktop\\D-Combine.txt");
+                break;
+            default:
+                information = new Information("C:\\Users\\Jelle\\Desktop\\O-Combine.txt");
+                break;
+        }
+        //Player.randomPlayer(21);
+        //Information information = new Information("C:\\Users\\Jelle\\Desktop\\randomPlayer.txt");
         ArrayList<String> data = Information.getInput();
         ArrayList<Player> playerList = new ArrayList<>();
         ArrayList<Player> storagePlayerList = new ArrayList<>();
